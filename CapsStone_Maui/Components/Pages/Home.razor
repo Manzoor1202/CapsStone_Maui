@@ -1,0 +1,49 @@
+﻿@page "/home"
+
+@using System.Globalization
+@using Microsoft.Extensions.Localization
+@using CapsStone_Maui.Resources.Languages
+
+@inject IStringLocalizer<MyStrings> Localizer
+
+<h1>@Localizer["HelloWorld"]</h1>
+@Localizer["Welcome"]
+<br />
+@* Welcome to your new app.
+*@
+
+<br />
+
+<strong>@Localizer["Language"]</strong>
+
+<select class="form-control" @bind="Culture" style="width:300px; margin-left=10px;">
+    @foreach (var culture in cultures)
+    {
+        <option value="@culture">@culture.DisplayName</option>
+    }
+</select>
+
+@code
+{
+    CultureInfo[] cultures = new[]
+    {
+        new CultureInfo("en-US"),
+        new CultureInfo("kn-KN")
+    };
+
+    CultureInfo Culture
+    {
+        get => CultureInfo.CurrentCulture;
+        set
+        {
+            if (CultureInfo.CurrentCulture != value)
+            {
+                Thread.CurrentThread.CurrentCulture = value;
+                Thread.CurrentThread.CurrentUICulture = value;
+                CultureInfo.DefaultThreadCurrentCulture = value;
+                CultureInfo.DefaultThreadCurrentUICulture = value;
+                //Preferences.Set("language", value.Name);
+            }
+        }
+    }
+}

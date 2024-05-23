@@ -1,0 +1,78 @@
+﻿@page "/camera"
+
+@inject IStringLocalizer<MyStrings> Localizer
+@inject IJSRuntime JSRuntime
+@using SkiaSharp
+
+
+
+
+@inject CameraService cameraService
+
+<h3>@Localizer["Camera"]</h3>
+<button @onclick="CapturePhoto">Capture Photo</button>
+
+@if (imageSrc != null)
+{
+    <img src="@imageSrc" style="max-width: 100%; max-height: 100%;" />
+}
+
+@code {
+
+    string imageSrc;
+
+    private async Task CapturePhoto()
+    {
+        var imageStream = await cameraService.CapturePhotoAsync();
+
+        if (imageStream != null)
+        {
+            var resizedImageStream = ResizeImage(imageStream, 400, 300); // Adjust the dimensions as needed
+            var base64 = Convert.ToBase64String(ReadFully(resizedImageStream));
+
+            imageSrc = $"data:image/png;base64,{base64}";
+
+            // Save the image locally
+            await JSRuntime.InvokeVoidAsync("saveImageLocally", base64, "captured_image.png");
+        }
+    }
+
+    private Stream ResizeImage(Stream input, int maxWidth, int maxHeight)
+    {
+        using (var inputStream = new SKManagedStream(input))
+        {
+            using (var originalImage = SKBitmap.Decode(inputStream))
+            {
+                int newWidth, newHeight;
+
+                if (originalImage.Width > originalImage.Height)
+                {
+                    newWidth = maxWidth;
+                    newHeight = (int)(originalImage.Height * ((float)maxWidth / originalImage.Width));
+                }
+                else
+                {
+                    newHeight = maxHeight;
+                    newWidth = (int)(originalImage.Width * ((float)maxHeight / originalImage.Height));
+                }
+
+                var resizedImage = originalImage.Resize(new SKImageInfo(newWidth, newHeight), SKFilterQuality.Medium);
+
+                var resizedImageStream = new MemoryStream();
+                resizedImage.Encode(SKEncodedImageFormat.Png, 100).SaveTo(resizedImageStream);
+                resizedImageStream.Position = 0;
+
+                return resizedImageStream;
+            }
+        }
+    }
+
+    private byte[] ReadFully(Stream input)
+    {
+        using (MemoryStream ms = new MemoryStream())
+        {
+            input.CopyTo(ms);
+            return ms.ToArray();
+        }
+    }
+}

@@ -1,0 +1,30 @@
+﻿
+@page "/charts"
+
+
+@inject IStringLocalizer<MyStrings> Localizer
+@inject IJSRuntime jsRuntime
+
+<h3>@Localizer["Charts"]</h3>
+
+
+<canvas id="myChart" width="400" height="400"></canvas>
+
+
+@code {
+    private async Task DrawChart()
+    {
+        // var jsRuntime = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "JS/Common.js");
+
+        await jsRuntime.InvokeVoidAsync("createChart", "myChart");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await DrawChart();
+        }
+    }
+
+}

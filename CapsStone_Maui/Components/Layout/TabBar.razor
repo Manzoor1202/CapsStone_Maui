@@ -1,0 +1,103 @@
+﻿@inject IStringLocalizer<MyStrings> Localizer
+
+
+<ul class="nav nav-pills nav-fill fixed-bottom">
+
+    <li class="nav-item">
+
+        <NavLink class="nav-link" href="Home">
+
+            <span class="icon-first" aria-hidden="true"></span>
+
+            <div class="text-center">@Localizer["Home"]</div>
+
+        </NavLink>
+
+    </li>
+
+    <li class="nav-item">
+
+        <NavLink class="nav-link" href="Camera">
+
+            <span class="icon-first" aria-hidden="true"></span>
+
+            <div class="text-center">@Localizer["Camera"]</div>
+
+        </NavLink>
+
+    </li>
+
+    <li class="nav-item">
+
+        <NavLink class="nav-link" href="Charts">
+
+            <span class="icon-first" aria-hidden="true"></span>
+
+            <div class="text-center">@Localizer["Charts"]</div>
+
+        </NavLink>
+
+
+    </li>
+
+    <li class="nav-item">
+
+        <NavLink class="nav-link" href="Gallery">
+
+            <span class="icon-first" aria-hidden="true"></span>
+
+            <div class="text-center">@Localizer["Gallery"]</div>
+
+        </NavLink>
+
+
+    </li>
+
+</ul>
+
+
+
+
+
+@* @code {
+    [Parameter]
+    public int ActivetabIndex { get; set; }
+    [Parameter]
+    public EventCallback<int> ActivetabIndexChanged { get; set; }
+
+    protected Task onTabClick(int tabIndex)
+    {
+        ActivetabIndex = tabIndex;
+        return ActivetabIndexChanged.InvokeAsync(ActivetabIndex);
+    }
+} *@
+
+
+
+
+@* <ul class="nav nav-pills nav-fill fixed-bottom">
+    <li class="nav-item">
+
+    <NavLink class="nav-link" href="Home" >
+        <span class="icon-first" aria-hidden="true">Home</span> 
+        
+    </NavLink>
+    </li>
+
+    <li class="nav-item">
+
+    <NavLink class="nav-link" href="Camera" >
+        <span class="icon-first" aria-hidden="true"> Camera</span>
+
+    </NavLink>
+    </li>
+
+    <li class="nav-item">
+
+    <NavLink class="nav-link" href="Charts" >
+        <span class="icon-first" aria-hidden="true">Charts</span>
+
+    </NavLink>
+    </li>
+
+</ul> *@

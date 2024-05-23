@@ -1,0 +1,72 @@
+﻿@inject IStringLocalizer<MyStrings> Localizer
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">CapsStone_Maui</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> @Localizer["Index"] 
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="counter">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span>@Localizer["Counter"]
+            </NavLink>
+        </div>
+       @*  <div class="nav-item px-3">
+            <NavLink class="nav-link" href="weather">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+            </NavLink>
+        </div> *@
+    </nav>
+</div>
+
+
+
+
+@* <ul class="nav nav-pills nav-fill fixed-bottom">
+    <li class="nav-item">
+
+        <button class="nav-link text-center" @onclick="()=> onTabClick(0)">
+            <span class="icon-first" aria-hidden="true"></span>
+            <div class="text-center">Home</div>
+        </button>
+    </li>
+
+    <li class="nav-item">
+
+        <button class="nav-link text-center" @onclick="()=> onTabClick(1)">
+            <span class="icon-first" aria-hidden="true"></span>
+            <div class="text-center">Camera</div>
+        </button>
+    </li>
+
+    <li class="nav-item">
+
+        <button class="nav-link text-center" @onclick="()=> onTabClick(2)">
+            <span class="icon-first" aria-hidden="true"></span>
+            <div class="text-center">Charts</div>
+        </button>
+    </li>
+
+</ul>
+
+@code {
+    [Parameter]
+    public int ActivetabIndex { get; set; }
+    [Parameter]
+    public EventCallback<int> ActivetabIndexChanged { get; set; }
+
+    protected Task onTabClick(int tabIndex)
+    {
+        ActivetabIndex = tabIndex;
+        return ActivetabIndexChanged.InvokeAsync(ActivetabIndex);
+    }
+} *@

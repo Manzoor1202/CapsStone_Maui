@@ -1,0 +1,46 @@
+﻿@page "/gallery"
+
+
+
+<h3>Take a Photo</h3>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <p>@errorMessage</p>
+}
+
+<InputFile OnChange="HandleFileSelected" />
+
+@code {
+    private string errorMessage;
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.GetMultipleFiles().FirstOrDefault();
+        if (file != null)
+        {
+            var fileName = Path.GetFileName(file.Name);
+            var extension = Path.GetExtension(fileName)?.ToLowerInvariant();
+
+            // Check if the selected file has an image extension
+            if (extension == ".jpg" || extension == ".jpeg" || extension == ".png" || extension == ".gif")
+            {
+                // Save the file into local storage
+                var buffer = new byte[file.Size];
+                await file.OpenReadStream().ReadAsync(buffer);
+                var localFilePath = Path.Combine(FileSystem.CacheDirectory, fileName);
+                await File.WriteAllBytesAsync(localFilePath, buffer);
+            }
+            else
+            {
+                errorMessage = "Please select an image file.";
+            }
+        }
+        else
+        {
+            errorMessage = "No file selected.";
+        }
+    }
+}
+
+
